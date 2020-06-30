@@ -15,6 +15,14 @@ class App extends Component {
   }
 
   componentDidMount(){
+    window.addEventListener("keyup", (e) =>{
+      if (e.keyCode == 13) {
+        this.initGame()
+
+          }
+      }
+  )
+
     this.initGame()
   }
 
@@ -22,17 +30,29 @@ class App extends Component {
     console.log("=>" +letter)
 
     if (this.state.usedLetter.indexOf(letter)===-1){
+      let attempt = this.state.attempt+1
       const usedLetter = [letter, ...this.state.usedLetter]
 
       if (this.state.currentWord.indexOf(letter)===-1){
         const attempt = this.state.attempt+1
-        this.setState({attempt})
+      } 
+
+      let win = 1
+      for( let i=0; i<this.state.currentWord.length; i++){
+        if (usedLetter.indexOf(this.state.currentWord[i]) == -1){
+          win = 0
+        }
+      }
+
+      if (attempt === 9 && win === 0){
+        win = -1
       }
 
 
-      this.setState({usedLetter})
-    } else {
-      console.log("la lettre est déja traité")
+
+      this.setState({usedLetter, attempt, win})
+
+    
     }
 
     // nombre de tentative : décrémenter
@@ -49,7 +69,8 @@ class App extends Component {
   } 
 
   initGame = () => {
-    this.setState({currentWord:"licorne", usedLetter:[]})
+    console.log("jeu relancé")
+    this.setState({currentWord:"licorne", usedLetter:[], win:0, attempt : 0})
   }
 
 
@@ -57,7 +78,8 @@ class App extends Component {
         return (
           <div id="game">
             <h1>Pendu</h1>
-            {this.state.attempt}
+            win = {this.state.win} <br/>
+            attempt = {this.state.attempt}
 
             {
               (this.state.currentWord !== null) && 
