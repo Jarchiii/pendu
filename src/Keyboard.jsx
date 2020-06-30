@@ -1,11 +1,11 @@
 import React , { Component} from 'react'
-import { render } from '@testing-library/react'
+import './App.css'
 
 class Keyboard extends Component{ 
 
     componentDidMount(){
         window.addEventListener("keyup", (e) =>{
-            if (this.props.alphabet.indexOf(e.key) != -1) {
+            if (this.props.alphabet.indexOf(e.key) !== -1) {
                 this.props.action(e.key)
             }
         })
